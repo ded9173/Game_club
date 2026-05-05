@@ -1,0 +1,114 @@
+background-color: #f9f5eb;
+color: #4b3c27;
+border-radius: 10px;
+border: 1px solid #e0d6c2;
+
+QPushButton {
+    background-color: #d4c8a5;
+    color: #4b3c27;
+    border: 1px solid #c0b490;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+QPushButton:hover {
+    background-color: #e5d8b5;
+}
+QPushButton:pressed {
+    background-color: #c0b490;
+}
+
+QLineEdit, QSpinBox, QDoubleSpinBox {
+    background-color: white;
+    border: 1px solid #d0c4a8;
+    padding: 6px;
+    border-radius: 6px;
+}
+QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus {
+    border: 1px solid #a89c7f;
+}
+
+QTableWidget {
+    background-color: white;
+    border: 1px solid #e0d6c2;
+    gridline-color: #e8e0d0;
+}
+QHeaderView::section {
+    background-color: #e8e0d0;
+    color: #4b3c27;
+    padding: 6px;
+    border: none;
+}
+
+QWidget {
+    background-color: #f9f5eb;
+    font-family: "Segoe UI";
+}
+
+QLabel {
+    color: #4b3c27;
+    font-size: 13px;
+}
+
+QDialog {
+    background-color: #f9f5eb;
+}
+
+QMainWindow {
+    background-color: #f9f5eb;
+}
+
+QPushButton:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    border: 1px solid #aaaaaa;
+}
+
+QPushButton#delete_btn {
+    background-color: #e5b8b7;
+    color: #5e2c24;
+}
+QPushButton#delete_btn:hover {
+    background-color: #ffcccc;
+}
+
+QFormLayout > QLineEdit,
+QFormLayout > QComboBox,
+QFormLayout > QTextEdit {
+    background-color: white;
+    border: 1px solid #d0c4a8;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QTableCornerButton::section {
+    background-color: #e8e0d0;
+}
+
+QScrollBar:vertical {
+    width: 12px;
+    background: #f0ebe0;
+    border-left: 1px solid #e0d6c2;
+}
+QScrollBar::handle:vertical {
+    background: #c0b490;
+    border-radius: 6px;
+    min-height: 20px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #d4c8a5;
+}
+
+QScrollBar:horizontal {
+    height: 12px;
+    background: #f0ebe0;
+    border-top: 1px solid #e0d6c2;
+}
+QScrollBar::handle:horizontal {
+    background: #c0b490;
+    border-radius: 6px;
+    min-width: 20px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: #d4c8a5;
+}
