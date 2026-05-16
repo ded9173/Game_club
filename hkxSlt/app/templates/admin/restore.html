@@ -1,0 +1,59 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">🔄 Восстановление системы</h1>
+    <a href="{{ url_for('admin.settings') }}" class="btn btn-secondary">
+        ← Назад к настройкам
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Восстановление из резервной копии</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <strong>⚠️ ВНИМАНИЕ!</strong>
+                    <ul class="mb-0 mt-2">
+                        <li>Восстановление заменит текущие данные в базе данных</li>
+                        <li>Перед восстановлением автоматически создаётся резервная копия для отката</li>
+                        <li>Рекомендуется выполнить полное резервное копирование перед восстановлением</li>
+                    </ul>
+                </div>
+
+                <form method="POST" id="restoreForm">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.backup_file.label(class="form-label") }}
+                        {{ form.backup_file(class="form-select" + (" is-invalid" if form.backup_file.errors else "")) }}
+                        {% for error in form.backup_file.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <small class="text-muted">Выберите файл резервной копии для восстановления</small>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-warning" onclick="confirmRestore()">
+                            🔄 Восстановить систему
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmRestore() {
+        if (confirm('⚠️ ВНИМАНИЕ! Восстановление заменит все текущие данные.\n\nВы уверены, что хотите продолжить?')) {
+            if (confirm('Последнее предупреждение: Убедитесь, что у вас есть свежая резервная копия текущей базы данных.\n\nПродолжить восстановление?')) {
+                document.getElementById('restoreForm').submit();
+            }
+        }
+    }
+</script>
+{% endblock %}

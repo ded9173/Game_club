@@ -1,0 +1,97 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">💾 Управление резервными копиями</h1>
+    <a href="{{ url_for('admin.settings') }}" class="btn btn-secondary">
+        ← Назад к настройкам
+    </a>
+</div>
+
+<div class="row">
+    <!-- Форма создания бэкапа -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Создать резервную копию</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.backup_type.label(class="form-label") }}
+                        {{ form.backup_type(class="form-select") }}
+                        <small class="text-muted">
+                            📦 Полное — вся БД<br>
+                            📈 Инкрементное — изменения с последнего бэкапа<br>
+                            📊 Дифференциальное — изменения с последнего полного
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control", placeholder="Описание (необязательно)") }}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список бэкапов -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">История резервных копий</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Тип</th>
+                            <th>Файл</th>
+                            <th>Размер</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for backup in backups %}
+                        <tr>
+                            <td>{{ backup.created_at.strftime('%Y-%m-%d %H:%M:%S') if backup.created_at else '-' }}</td>
+                            <td>
+                                {% if backup.backup_type == 'full' %}
+                                <span class="badge bg-primary">Полное</span>
+                                {% elif backup.backup_type == 'incremental' %}
+                                <span class="badge bg-info">Инкрементное</span>
+                                {% else %}
+                                <span class="badge bg-warning text-dark">Дифференциальное</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ backup.filename[:40] }}{% if backup.filename|length > 40 %}...{% endif %}</td>
+                            <td>{{ (backup.filesize / 1024 / 1024)|round(2) }} МБ</td>
+                            <td>
+                                <a href="{{ url_for('admin.download_backup', backup_id=backup.id) }}"
+                                   class="btn btn-sm btn-outline-success" title="Скачать">
+                                    📥
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Нет резервных копий</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

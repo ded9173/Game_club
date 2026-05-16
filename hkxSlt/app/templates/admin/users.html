@@ -1,0 +1,126 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Управление пользователями</h1>
+    <a href="{{ url_for('admin.create_user') }}" class="btn btn-primary">➕ Создать пользователя</a>
+</div>
+
+<!-- Статистика -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="alert alert-info">Всего: {{ stats.total }}</div>
+    </div>
+    <div class="col-md-3">
+        <div class="alert alert-success">Активные: {{ stats.active }}</div>
+    </div>
+    <div class="col-md-3">
+        <div class="alert alert-danger">Заблокированные: {{ stats.blocked }}</div>
+    </div>
+    <div class="col-md-3">
+        <div class="alert alert-warning">Администраторы: {{ stats.admin }}</div>
+    </div>
+</div>
+
+<!-- Фильтры -->
+<form method="GET" class="row mb-4">
+    <div class="col-md-4">
+        <input type="text" name="search" class="form-control" placeholder="Поиск..." value="{{ search }}">
+    </div>
+    <div class="col-md-3">
+        <select name="role" class="form-select">
+            <option value="all" {% if role == 'all' %}selected{% endif %}>Все роли</option>
+            <option value="admin" {% if role == 'admin' %}selected{% endif %}>Администраторы</option>
+            <option value="user" {% if role == 'user' %}selected{% endif %}>Пользователи</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="status" class="form-select">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>Все статусы</option>
+            <option value="active" {% if status == 'active' %}selected{% endif %}>Активные</option>
+            <option value="blocked" {% if status == 'blocked' %}selected{% endif %}>Заблокированные</option>
+            <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Неактивные</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-secondary w-100">Применить</button>
+    </div>
+</form>
+
+<!-- Таблица пользователей -->
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Статус</th>
+            <th>Дата регистрации</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email or '-' }}</td>
+            <td>
+                {% if user.is_admin %}
+                <span class="badge bg-warning">Admin</span>
+                {% else %}
+                <span class="badge bg-secondary">User</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.blocked %}
+                <span class="badge bg-danger">Заблокирован</span>
+                {% elif not user.is_active %}
+                <span class="badge bg-secondary">Неактивен</span>
+                {% else %}
+                <span class="badge bg-success">Активен</span>
+                {% endif %}
+            </td>
+            <td>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else '-' }}</td>
+            <td>
+                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-sm btn-outline-primary">✏️</a>
+                <a href="{{ url_for('admin.change_user_password', user_id=user.id) }}" class="btn btn-sm btn-outline-warning">🔑</a>
+                {% if user.blocked %}
+                <a href="{{ url_for('admin.unblock_user', user_id=user.id) }}" class="btn btn-sm btn-outline-success">🔓</a>
+                {% else %}
+                <a href="{{ url_for('admin.block_user', user_id=user.id) }}" class="btn btn-sm btn-outline-danger">🔒</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Пагинация -->
+{% if pagination.pages > 1 %}
+<nav>
+    <ul class="pagination">
+        {% if pagination.has_prev %}
+        <li class="page-item"><a class="page-link" href="?page={{ pagination.prev_num }}&search={{ search }}&role={{ role }}&status={{ status }}">←</a></li>
+        {% endif %}
+
+        {% for page_num in pagination.iter_pages() %}
+        {% if page_num %}
+        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_num }}&search={{ search }}&role={{ role }}&status={{ status }}">{{ page_num }}</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if pagination.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ pagination.next_num }}&search={{ search }}&role={{ role }}&status={{ status }}">→</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация здания{% endblock %}
+
+{% block content %}
+<div class="card w-50 mx-auto shadow-sm rounded border-0">
+    <div class="card-header">
+        <h2 class="card-title text-center">Регистрация здания</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control", placeholder="г. Москва, ул. Ленина, д. 15") }}
+                {% if form.address.errors %}
+                    <div class="text-danger small">{{ form.address.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.floors.label(class="form-label") }}
+                {{ form.floors(class="form-control") }}
+                {% if form.floors.errors %}
+                    <div class="text-danger small">{{ form.floors.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.year_built.label(class="form-label") }}
+                {{ form.year_built(class="form-control") }}
+                {% if form.year_built.errors %}
+                    <div class="text-danger small">{{ form.year_built.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.total_area.label(class="form-label") }}
+                {{ form.total_area(class="form-control", step="0.01") }}
+                {% if form.total_area.errors %}
+                    <div class="text-danger small">{{ form.total_area.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.city.label(class="form-label") }}
+                {{ form.city(class="form-control") }}
+                {% if form.city.errors %}
+                    <div class="text-danger small">{{ form.city.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.street.label(class="form-label") }}
+                {{ form.street(class="form-control") }}
+                {% if form.street.errors %}
+                    <div class="text-danger small">{{ form.street.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.house_number.label(class="form-label") }}
+                {{ form.house_number(class="form-control") }}
+                {% if form.house_number.errors %}
+                    <div class="text-danger small">{{ form.house_number.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Зарегистрировать здание</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">📎 Экспорт данных</h1>
+    <a href="{{ url_for('admin.settings') }}" class="btn btn-secondary">
+        ← Назад к настройкам
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">👥 Экспорт пользователей</h5>
+            </div>
+            <div class="card-body">
+                <p>Экспорт списка всех пользователей в формате CSV.</p>
+                <a href="{{ url_for('admin.export_users') }}" class="btn btn-primary">
+                    📥 Скачать CSV
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">💰 Финансовый отчёт</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('admin.export_financial') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Период (ГГГГ-ММ)</label>
+                        <input type="month" name="period" class="form-control" placeholder="2024-01">
+                        <small class="text-muted">Оставьте пустым для всего периода</small>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        📥 Скачать отчёт CSV
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">📊 Системная статистика</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Пользователи:</strong> {{ stats.users }}<br>
+                        <strong>Активные:</strong> {{ stats.active_users }}<br>
+                        <strong>Заблокированные:</strong> {{ stats.blocked_users }}
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Здания:</strong> {{ stats.buildings }}<br>
+                        <strong>Квартиры:</strong> {{ stats.apartments }}<br>
+                        <strong>Владельцы:</strong> {{ stats.owners }}
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Начисления:</strong> {{ "%.2f"|format(stats.charges_total) }} ₽<br>
+                        <strong>Платежи:</strong> {{ "%.2f"|format(stats.payments_total) }} ₽<br>
+                        <strong>Задолженность:</strong> {{ "%.2f"|format(stats.debt_total) }} ₽
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

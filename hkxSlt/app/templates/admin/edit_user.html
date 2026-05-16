@@ -1,0 +1,64 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">✏️ Редактирование пользователя: {{ user.username }}</h1>
+    <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">
+        ← Назад к списку
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Редактирование профиля</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+                        {% for error in form.username.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                        {% for error in form.email.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form.is_admin(class="form-check-input") }}
+                        {{ form.is_admin.label(class="form-check-label") }}
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form.is_active(class="form-check-input") }}
+                        {{ form.is_active.label(class="form-check-label") }}
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <a href="{{ url_for('admin.change_user_password', user_id=user.id) }}"
+                           class="btn btn-outline-warning w-100">
+                            🔑 Сменить пароль
+                        </a>
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

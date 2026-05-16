@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <!-- Карточка профиля -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title mb-0">Добро пожаловать, {{ current_user.username }}!</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Роль:</strong> {{ current_user.role }}</p>
+                    {% if current_user.blocked %}
+                        <span class="badge badge-danger">Аккаунт заблокирован</span>
+                    {% else %}
+                        <span class="badge badge-success">Активен</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-5">
+                <div class="card-header">
+                    <h3>Изменить имя пользователя</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.profile') }}">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.username.label(class="form-label") }}
+                            {{ form.username(class="form-control", value=current_user.username) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+
+            <h3 class="mb-4">Быстрый доступ к разделам</h3>
+            <div class="row text-center">
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_building') }}" class="btn btn-outline-info btn-block">
+                        🏢 Управление зданиями
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_apartment') }}" class="btn btn-outline-warning btn-block">
+                        🏠 Квартиры
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_owner') }}" class="btn btn-outline-secondary btn-block">
+                        👤 Владельцы
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_service') }}" class="btn btn-outline-primary btn-block">
+                        ⚙️ Услуги
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_charge') }}" class="btn btn-outline-success btn-block">
+                        💰 Начисления
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_payment') }}" class="btn btn-outline-success btn-block">
+                        💵 Платежи
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_request') }}" class="btn btn-outline-danger btn-block">
+                        🛠️ Заявки
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_staff') }}" class="btn btn-outline-dark btn-block">
+                        👥 Сотрудники
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_expense') }}" class="btn btn-outline-danger btn-block">
+                        📉 Расходы
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.register_resident') }}" class="btn btn-outline-light btn-block text-dark">
+                        🧍 Жители
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <a href="{{ url_for('main.api_get_buildings') }}" class="btn btn-outline-info btn-block">
+                        🌐 API Домов
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

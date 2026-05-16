@@ -1,0 +1,51 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">🔒 Блокировка пользователя</h1>
+    <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">
+        ← Назад к списку
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Блокировка: {{ user.username }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <strong>⚠️ Внимание!</strong> Заблокированный пользователь не сможет войти в систему.
+                </div>
+
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.block_reason.label(class="form-label") }}
+                        {{ form.block_reason(class="form-control" + (" is-invalid" if form.block_reason.errors else ""), rows=3) }}
+                        {% for error in form.block_reason.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.block_days.label(class="form-label") }}
+                        {{ form.block_days(class="form-control" + (" is-invalid" if form.block_days.errors else "")) }}
+                        {% for error in form.block_days.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <small class="text-muted">0 — бессрочная блокировка</small>
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-danger") }}
+                        <a href="{{ url_for('admin.users') }}" class="btn btn-secondary mt-2">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Настройки системы</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>🔐 Безопасность</h5>
+            </div>
+            <div class="card-body">
+                <p>Смена пароля администратора</p>
+                <a href="{{ url_for('admin.change_password') }}" class="btn btn-outline-primary">Сменить пароль</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>💾 Резервное копирование</h5>
+            </div>
+            <div class="card-body">
+                <p>Управление резервными копиями базы данных</p>
+                <a href="{{ url_for('admin.backup') }}" class="btn btn-outline-primary">Управление бэкапами</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>🔄 Восстановление системы</h5>
+            </div>
+            <div class="card-body">
+                <p>Восстановление данных из резервной копии</p>
+                <a href="{{ url_for('admin.restore') }}" class="btn btn-outline-warning">Восстановить</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>👥 Управление пользователями</h5>
+            </div>
+            <div class="card-body">
+                <p>Создание, редактирование и блокировка пользователей</p>
+                <a href="{{ url_for('admin.users') }}" class="btn btn-outline-success">Управление</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Подать заявку{% endblock %}
+
+{% block content %}
+<div class="card w-50 mx-auto shadow-sm rounded border-0">
+    <div class="card-header">
+        <h2 class="card-title text-center">Подача обращения</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group mb-3">
+                {{ form.title.label(class="form-label") }}
+                {{ form.title(class="form-control", placeholder="Протечка в подъезде") }}
+                {% if form.title.errors %}
+                    <div class="text-danger small">{{ form.title.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control", rows="4") }}
+                {% if form.description.errors %}
+                    <div class="text-danger small">{{ form.description.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.status.label(class="form-label") }}
+                {{ form.status(class="custom-select") }}
+                {% if form.status.errors %}
+                    <div class="text-danger small">{{ form.status.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.priority.label(class="form-label") }}
+                {{ form.priority(class="custom-select") }}
+                {% if form.priority.errors %}
+                    <div class="text-danger small">{{ form.priority.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.apartment_id.label(class="form-label") }}
+                {{ form.apartment_id(class="custom-select") }}
+                {% if form.apartment_id.errors %}
+                    <div class="text-danger small">{{ form.apartment_id.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

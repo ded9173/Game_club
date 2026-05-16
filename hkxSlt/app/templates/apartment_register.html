@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация квартиры{% endblock %}
+
+{% block content %}
+<div class="card w-50 mx-auto shadow-sm rounded border-0">
+    <div class="card-header">
+        <h2 class="card-title text-center">Регистрация квартиры</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group mb-3">
+                {{ form.number.label(class="form-label") }}
+                {{ form.number(class="form-control") }}
+                {% if form.number.errors %}
+                    <div class="text-danger small">{{ form.number.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.area.label(class="form-label") }}
+                {{ form.area(class="form-control", step="0.01") }}
+                {% if form.area.errors %}
+                    <div class="text-danger small">{{ form.area.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.building_id.label(class="form-label") }}
+                {{ form.building_id(class="custom-select") }}
+                {% if form.building_id.errors %}
+                    <div class="text-danger small">{{ form.building_id.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.owner_id.label(class="form-label") }}
+                {{ form.owner_id(class="custom-select") }}
+                {% if form.owner_id.errors %}
+                    <div class="text-danger small">{{ form.owner_id.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Зарегистрировать квартиру</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

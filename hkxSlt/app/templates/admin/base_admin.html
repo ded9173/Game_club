@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+                            📊 Панель управления
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'admin.users' %}active{% endif %}" href="{{ url_for('admin.users') }}">
+                            👥 Пользователи
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'admin.settings' %}active{% endif %}" href="{{ url_for('admin.settings') }}">
+                            ⚙️ Настройки
+                        </a>
+                    </li>
+                </ul>
+
+                <hr>
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.backup') }}">
+                            💾 Резервное копирование
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.restore') }}">
+                            🔄 Восстановление
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.change_password') }}">
+                            🔐 Смена пароля
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<style>
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    .sidebar .nav-link.active {
+        color: #0d6efd;
+        background-color: #e9ecef;
+    }
+</style>
+{% endblock %}

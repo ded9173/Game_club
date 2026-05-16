@@ -1,0 +1,36 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.container {
+    min-height: 60vh;
+}
+
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: 5px;
+}
+
+.text-center h1 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.text-center .lead {
+    color: #6c757d;
+    margin-bottom: 30px;
+}

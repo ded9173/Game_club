@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="card w-50 mx-auto shadow-sm rounded border-0">
+    <div class="card-body">
+        <h2 class="card-title text-center">Вход</h2>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control", autofocus="", placeholder="Имя пользователя") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", placeholder="Пароль") }}
+            </div>
+            <div class="form-check">
+                {{ form.remember_me(class="form-check-input") }}
+                {{ form.remember_me.label(class="form-check-label") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

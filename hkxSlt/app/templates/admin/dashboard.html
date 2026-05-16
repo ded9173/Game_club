@@ -1,0 +1,128 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Панель управления</h1>
+</div>
+
+<!-- Статистика -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Всего пользователей</h5>
+                <h2 class="card-text">{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Активные</h5>
+                <h2 class="card-text">{{ active_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">Заблокированные</h5>
+                <h2 class="card-text">{{ blocked_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Администраторы</h5>
+                <h2 class="card-text">{{ admin_users }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Последние действия -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Последние действия администраторов</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Действие</th>
+                            <th>Объект</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for action in recent_actions %}
+                        <tr>
+                            <td>{{ action.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ action.action }}</td>
+                            <td>{{ action.target_type }} #{{ action.target_id }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">Нет записей</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Последние бэкапы -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Последние резервные копии</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Тип</th>
+                            <th>Файл</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for backup in recent_backups %}
+                        <tr>
+                            <td>{{ backup.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if backup.backup_type == 'full' %}
+                                <span class="badge bg-primary">Полное</span>
+                                {% elif backup.backup_type == 'incremental' %}
+                                <span class="badge bg-info">Инкрементное</span>
+                                {% else %}
+                                <span class="badge bg-warning">Дифференциальное</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ backup.filename }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">Нет бэкапов</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if last_full_backup %}
+                <div class="alert alert-info mt-2">
+                    <small>Последнее полное копирование: {{ last_full_backup.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

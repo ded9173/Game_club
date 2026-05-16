@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Добро пожаловать в Портал ЖК</h1>
+    <p class="lead">Управляйте домами, квартирами, платежами и заявками в одном месте.</p>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.profile') }}" class="btn btn-primary btn-lg">Перейти в профиль</a>
+    {% else %}
+        <a href="{{ url_for('main.login') }}" class="btn btn-outline-primary mr-2">Войти</a>
+        <a href="{{ url_for('main.register') }}" class="btn btn-success">Зарегистрироваться</a>
+    {% endif %}
+</div>
+{% endblock %}
